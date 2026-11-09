@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "optimizer",
+  "version": "${version}",
+  "name": "Optimizer",
+  "description": "Optimización ligera: ajusta opciones de vídeo y la distancia de renderizado según los FPS.",
+  "authors": ["Tú"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.example.optimizer.OptimizerClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
