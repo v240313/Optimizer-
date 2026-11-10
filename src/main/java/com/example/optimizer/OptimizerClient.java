@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.ParticlesMode;
+import net.minecraft.client.option.SimpleOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +28,19 @@ public class OptimizerClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(this::dynamicViewDistance);
     }
 
+    // Pone una opción de tipo enum por nombre, sin depender del nombre de la clase
+    private static <E extends Enum<E>> void setEnum(SimpleOption<E> option, String name) {
+        for (E c : option.getValue().getDeclaringClass().getEnumConstants()) {
+            if (c.name().equals(name)) {
+                option.setValue(c);
+                return;
+            }
+        }
+    }
+
     private void applyBaseSettings(MinecraftClient client) {
         GameOptions o = client.options;
-        o.getParticles().setValue(ParticlesMode.MINIMAL);
+        setEnum(o.getParticles(), "MINIMAL");
         o.getCloudRenderMode().setValue(CloudRenderMode.OFF);
         o.getMipmapLevels().setValue(2);
         o.getBiomeBlendRadius().setValue(1);
@@ -55,4 +65,4 @@ public class OptimizerClient implements ClientModInitializer {
             view.setValue(current + 1);
         }
     }
-  }
+    }
